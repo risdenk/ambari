@@ -6,5 +6,8 @@
   "executors.total" : 28,
   "slots.used" : 3,
   "topologies" : 1,
-  "nimbus.uptime" : 4637
+  "nimbus.uptime" : 4637,
+  "toplevel": {
+    "nested": 1.0
+  }
 }
