@@ -247,7 +247,7 @@ public class RestMetricsPropertyProvider extends ThreadPoolEnabledPropertyProvid
       metricsRetrievalService.submitRequest(MetricSourceType.REST, streamProvider, spec);
 
       // check to see if there is a cached value and use it if there is
-      Map<String, String> jsonMap = metricsRetrievalService.getCachedRESTMetric(spec);
+      Map<Object, Object> jsonMap = metricsRetrievalService.getCachedRESTMetric(spec);
       if (null == jsonMap) {
         return resource;
       }
@@ -471,7 +471,7 @@ public class RestMetricsPropertyProvider extends ThreadPoolEnabledPropertyProvid
    * @param resource
    *          all extracted values are placed into resource
    */
-  private void extractValuesFromJSON(Map<String, String> jsonMap,
+  private void extractValuesFromJSON(Map<Object, Object> jsonMap,
       Set<String> requestedPropertyIds, Resource resource, Map<String, PropertyInfo> propertyInfos)
       throws AmbariException {
     Type type = new TypeToken<Map<Object, Object>>() {}.getType();
@@ -480,7 +480,7 @@ public class RestMetricsPropertyProvider extends ThreadPoolEnabledPropertyProvid
       String metricsPath = propertyInfo.getPropertyId();
       String documentPath = extractDocumentPath(metricsPath);
       String[] docPath = documentPath.split(DOCUMENT_PATH_SEPARATOR);
-      Map<String, String> subMap = jsonMap;
+      Map<Object, Object> subMap = jsonMap;
       for (int i = 0; i < docPath.length; i++) {
         String pathElement = docPath[i];
         if (!subMap.containsKey(pathElement)) {
@@ -491,12 +491,12 @@ public class RestMetricsPropertyProvider extends ThreadPoolEnabledPropertyProvid
 
           throw new AmbariException(message);
         }
-        Object jsonSubElement = jsonMap.get(pathElement);
+        Object jsonSubElement = subMap.get(pathElement);
         if (i == docPath.length - 1) { // Reached target document section
           // Extract property value
           resource.setProperty(requestedPropertyId, jsonSubElement);
         } else { // Navigate to relevant document section
-          subMap = gson.fromJson((JsonElement) jsonSubElement, type);
+          subMap = gson.fromJson(String.valueOf(jsonSubElement), type);
         }
       }
     }

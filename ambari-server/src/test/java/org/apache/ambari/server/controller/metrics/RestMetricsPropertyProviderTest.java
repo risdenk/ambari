@@ -93,7 +93,7 @@ public class RestMetricsPropertyProviderTest {
   private static Cluster c1;
   private static AmbariManagementController amc;
 
-  {
+  static {
     metricsProperties.put("default_port", DEFAULT_STORM_UI_PORT);
     metricsProperties.put("port_config_type", "storm-site");
     metricsProperties.put("port_property_name", "ui.port");
@@ -106,6 +106,7 @@ public class RestMetricsPropertyProviderTest {
     componentMetrics.put("metrics/api/cluster/summary/slots.used", new Metric("/api/cluster/summary##slots.used", false, false, false, "unitless"));
     componentMetrics.put("metrics/api/cluster/summary/topologies", new Metric("/api/cluster/summary##topologies", false, false, false, "unitless"));
     componentMetrics.put("metrics/api/cluster/summary/nimbus.uptime", new Metric("/api/cluster/summary##nimbus.uptime", false, false, false, "unitless"));
+    componentMetrics.put("metrics/api/cluster/summary/nested", new Metric("/api/cluster/summary##toplevel#nested", false, false, false, "unitless"));
     componentMetrics.put("metrics/api/cluster/summary/wrong.metric", new Metric(null, false, false, false, "unitless"));
   }
 
@@ -306,6 +307,7 @@ public class RestMetricsPropertyProviderTest {
     Assert.assertEquals(3.0, resource.getPropertyValue(PropertyHelper.getPropertyId("metrics/api/cluster/summary", "slots.used")));
     Assert.assertEquals(1.0, resource.getPropertyValue(PropertyHelper.getPropertyId("metrics/api/cluster/summary", "topologies")));
     Assert.assertEquals(4637.0, resource.getPropertyValue(PropertyHelper.getPropertyId("metrics/api/cluster/summary", "nimbus.uptime")));
+    Assert.assertEquals(1.0, resource.getPropertyValue(PropertyHelper.getPropertyId("metrics/api/cluster/summary", "nested")));
   }
 
   public void testPopulateResources_singleProperty() throws Exception {

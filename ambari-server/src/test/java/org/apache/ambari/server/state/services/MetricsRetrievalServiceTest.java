@@ -76,7 +76,7 @@ public class MetricsRetrievalServiceTest extends EasyMockSupport {
     JMXMetricHolder jmxMetricHolder = m_service.getCachedJMXMetric(JMX_URL);
     Assert.assertNull(jmxMetricHolder);
 
-    Map<String, String> restMetrics = m_service.getCachedRESTMetric(REST_URL);
+    Map<Object, Object> restMetrics = m_service.getCachedRESTMetric(REST_URL);
     Assert.assertNull(restMetrics);
   }
 
@@ -102,7 +102,7 @@ public class MetricsRetrievalServiceTest extends EasyMockSupport {
     JMXMetricHolder jmxMetricHolder = m_service.getCachedJMXMetric(JMX_URL);
     Assert.assertNull(jmxMetricHolder);
 
-    Map<String, String> restMetrics = m_service.getCachedRESTMetric(REST_URL);
+    Map<Object, Object> restMetrics = m_service.getCachedRESTMetric(REST_URL);
     Assert.assertNull(restMetrics);
 
     m_service.submitRequest(MetricSourceType.JMX, streamProvider, JMX_URL);

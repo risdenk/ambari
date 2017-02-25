@@ -137,7 +137,7 @@ public class MetricsRetrievalService extends AbstractService {
   /**
    * A cache of URL to parsed REST data.
    */
-  private Cache<String, Map<String, String>> m_restCache;
+  private Cache<String, Map<Object, Object>> m_restCache;
 
   /**
    * The {@link Executor} which will handle all of the requests to load remote
@@ -357,7 +357,7 @@ public class MetricsRetrievalService extends AbstractService {
    *          the URL to retrieve cached data for (not {@code null}).
    * @return the metric, or {@code null} if none.
    */
-  public Map<String, String> getCachedRESTMetric(String restUrl) {
+  public Map<Object, Object> getCachedRESTMetric(String restUrl) {
     return m_restCache.getIfPresent(restUrl);
   }
 
@@ -551,7 +551,7 @@ public class MetricsRetrievalService extends AbstractService {
   private static final class RESTRunnable extends MetricRunnable {
 
     private final Gson m_gson;
-    private final Cache<String, Map<String, String>> m_cache;
+    private final Cache<String, Map<Object, Object>> m_cache;
 
     /**
      * Constructor.
@@ -563,7 +563,7 @@ public class MetricsRetrievalService extends AbstractService {
      * @param streamProvider
      * @param restUrl
      */
-    private RESTRunnable(Cache<String, Map<String, String>> cache, Set<String> queuedUrls,
+    private RESTRunnable(Cache<String, Map<Object, Object>> cache, Set<String> queuedUrls,
         Cache<String, String> ttlUrlCache, Gson gson, StreamProvider streamProvider,
         String restUrl) {
       super(streamProvider, restUrl, queuedUrls, ttlUrlCache);
@@ -581,7 +581,7 @@ public class MetricsRetrievalService extends AbstractService {
       JsonReader jsonReader = new JsonReader(
           new BufferedReader(new InputStreamReader(inputStream)));
 
-      Map<String, String> jsonMap = m_gson.fromJson(jsonReader, type);
+      Map<Object, Object> jsonMap = m_gson.fromJson(jsonReader, type);
       m_cache.put(m_url, jsonMap);
     }
   }
