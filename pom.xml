@@ -562,7 +562,7 @@
       </activation>
       <properties>
         <maven.clover.licenseLocation>${clover.license}</maven.clover.licenseLocation>
-        <clover.version>3.1.11</clover.version>
+        <clover.version>4.0.6</clover.version>
       </properties>
       <build>
         <plugins>
